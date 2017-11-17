@@ -1,0 +1,16 @@
+CC        = mpicc
+OPTIMIZE = -O3
+WARNING   = -Wall
+# OPT       = -DOPENMP
+OPT      += -DMPI
+
+OPTIONS   = $(OPTIMIZE) $(OPT)
+CFLAGS    = $(OPTIONS)
+LINKS      = -fopenmp -lm
+
+# 3dWaveFDTD: allvars.h proto.h
+# 	$(CC) main.c domain.c fdtd.c communication_test.c setup.c $(LINKS) $(CFLAGS) -o ../bin/3dWaveFDTD
+
+3dWaveFDTD: allvars.h proto.h
+	$(CC) main.c domain.c fdtd.c communicate.c setup.c $(LINKS) $(CFLAGS) -o ../bin/3dWaveFDTD
+

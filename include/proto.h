@@ -7,6 +7,10 @@ int get_neighbours (int nx, int ny);
 
 int setup (void);
 
+void *my_malloc (char *expr, size_t size);
+
+void my_free( void *ptr);
+
 int communicate (int t0);
 
 int comm_test (void);

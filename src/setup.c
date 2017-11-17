@@ -159,17 +159,19 @@ int setup (void)
     //
     // Pression U 3D array memory allocation
     // 
-    u = (REAL ****) malloc (3 * sizeof(REAL ***));
+/*AEG quita    u = (REAL ****) malloc (3 * sizeof(REAL ***));
     for (i = 0; i < 3; i++)
     {
       u[i] = (REAL ***) malloc ((Nx+8)*sizeof(REAL **));
       for (j = 0; j < Nx+8; j++)
       {
-	u[i][j] = (REAL **) malloc ((Ny+8)*sizeof(REAL *));
+	     u[i][j] = (REAL **) malloc ((Ny+8)*sizeof(REAL *));
         for (k = 0; k < Ny+8; k++)
-	  u[i][j][k] = (REAL *) malloc ((Nz+8)*sizeof(REAL));
+	       u[i][j][k] = (REAL *) malloc ((Nz+8)*sizeof(REAL));
       }
     }
+*/
+   reserve_u(); //Execute the dynamic reservation of CONTIGUOUS memory
     //
     // Velocity V 3D array memory allocation
     // 
@@ -178,7 +180,7 @@ int setup (void)
     {
       v[j] = (REAL **) malloc (Ny*sizeof(REAL *));
       for (k = 0; k < Ny; k++)
-	v[j][k] = (REAL *) malloc (Nz*sizeof(REAL));
+	     v[j][k] = (REAL *) malloc (Nz*sizeof(REAL));
     }
     
     //
@@ -186,9 +188,9 @@ int setup (void)
     //
     for (t = 0; t < 3; t++)
       for (x = 0; x < (Nx + 8); x++)
-	for (y = 0; y < (Ny + 8); y++)
-	  for (z = 0; z < (Nz + 8); z++)
-	    u[t][x][y][z] = 0;
+	     for (y = 0; y < (Ny + 8); y++)
+   	    for (z = 0; z < (Nz + 8); z++)
+            u[t][x][y][z] = 0;
     
           
     //
