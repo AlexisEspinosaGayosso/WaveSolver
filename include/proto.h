@@ -11,6 +11,10 @@ void *my_malloc (char *expr, size_t size);
 
 void my_free( void *ptr);
 
+int reserve_u(void);
+
+int reserve_v(void);
+
 int communicate (int t0);
 
 int comm_test (void);

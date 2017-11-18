@@ -202,24 +202,16 @@ int wave_prop_3D_cube (void)
   //
   // Free U 3-3D array
   //   
-  for(i = 0; i < 3; i++)
-  {
-    for (j = 0; j < (Nx+8); j++)
-    {
-      for (k = 0; k < (Ny+8); k++)
-      {
-	free(u[i][j][k]);
-      }
-      free(u[i][j]);
-    }
-    free(u[i]);
-  }
-  free (u);
+  my_free(u[0][0][0]);
+  my_free(u[0][0]);
+  my_free(u[0]);
+  my_free(u);
+
   printf("u array freed\n");
   //
   // Free V 3D array
   // 
-  for (j = 0; j < Nx; j++)
+/*AEG_quita  for (j = 0; j < Nx; j++)
   {
     for (k = 0; k < Ny; k++)
     {
@@ -228,6 +220,10 @@ int wave_prop_3D_cube (void)
     free(v[j]);
   }
   free(v);
+*/
+  my_free(v[0][0]);
+  my_free(v[0]);
+  my_free(v);
   printf("v array freed\n");
   
   return 1;

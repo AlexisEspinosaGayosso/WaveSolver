@@ -8,6 +8,7 @@
 #include <getopt.h>
 #include <omp.h>
 #include <mpi.h>
+#include <sys/time.h>
 
 #define NAME_LENGTH 256
 
