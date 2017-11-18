@@ -159,20 +159,18 @@ int setup (void)
     //
     // Pression U 3D array memory allocation
     // 
-    reserve_u(); //Execute the dynamic reservation of CONTIGUOUS memory
+    reserve_u(); //HAE Execute the dynamic reservation of CONTIGUOUS memory
+    //HAE Defining the MPI_Type_Vectors to be used
+    MPI_Type_vector(4,(Ny+8)*(Nz+8),(Ny+8)*(Nz+8),MPIREAL,&UTOSENDLR);
+    MPI_Type_commit(&UTOSENDLR);
+    MPI_Type_vector((Nx+8),4*(Nz+8),(Ny+8)*(Nz+8),MPIREAL,&UTOSENDTB);
+    MPI_Type_commit(&UTOSENDTB);
+
 
     //
     // Velocity V 3D array memory allocation
     //
-    reserve_v(); //Execute the dynamic reservation of CONTIGUOUS memory
-/*AEG_quita    v = (REAL ***) malloc (Nx*sizeof(REAL **));
-    for (j = 0; j < Nx; j++)
-    {
-      v[j] = (REAL **) malloc (Ny*sizeof(REAL *));
-      for (k = 0; k < Ny; k++)
-	     v[j][k] = (REAL *) malloc (Nz*sizeof(REAL));
-    }
-*/
+    reserve_v(); //HAE Execute the dynamic reservation of CONTIGUOUS memory
     
     //
     // Initialization of pressure to zero in all grid

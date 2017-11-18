@@ -14,7 +14,7 @@ void my_free( void *ptr ) {
 #define MY_FREE(x)      my_free(x)
  
 //
-// Velocity V 3D array memory allocation
+//HAE Velocity V 3D array memory CONTIGUOUS allocation
 //
 int reserve_v (void)
 {
@@ -40,10 +40,9 @@ int reserve_v (void)
 
 
 //
-// Pressure U t+3D (4D) array memory allocation
+//HAE Pressure U t+3D (4D) array CONTIGUOUS memory allocation
 //
 
-//Execute the dynamic reservation of CONTIGUOUS memory
 int reserve_u (void)
 {
    int max_t=3;

@@ -9,6 +9,7 @@
 #include <omp.h>
 #include <mpi.h>
 #include <sys/time.h>
+#include <time.h>
 
 #define NAME_LENGTH 256
 
@@ -144,6 +145,9 @@
 
   REAL * utosend_b;
   REAL * utorecv_b;
+
+  MPI_Datatype UTOSENDLR; //HAE to be used for the send left to right and viceversa
+  MPI_Datatype UTOSENDTB; //HAE to be used for the send up to bottom and viceversa
 
 
 /*

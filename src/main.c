@@ -21,14 +21,6 @@ int main (int argc, char ** argv)
   }
 #endif 
 
-  //
-  // Start clock for wall-time 
-  // timing
-  //
-  struct timeval start, finish;
-  gettimeofday (&start, NULL);
-  printf ("size of real  %ld\n", sizeof(REAL));
-  
   
   //
   // Get factor to multiply Dx and Dt
@@ -64,19 +56,23 @@ int main (int argc, char ** argv)
   //
 //   comm_test ();
 //   printf ("Task %d - Done communication\n", ThisTask);
+
+
+  //
+  // Start clock for wall-time 
+  // timing
+  //
+  struct timeval start, finish;
+  gettimeofday (&start, NULL);
+  printf ("size of real  %ld\n", sizeof(REAL));
+
+  clock_t starttime = clock();
   
   //
   // MainLoop
   // 
   printf ("Calling loop\n");
   wave_prop_3D_cube ();
-
-  // 
-  // Terminate
-  //  
-#ifdef MPI
-  MPI_Finalize ();
-#endif
 
   //
   // Measure wall-time 
@@ -85,6 +81,21 @@ int main (int argc, char ** argv)
   double total_time  = (finish.tv_sec - start.tv_sec);
   total_time += (finish.tv_usec - start.tv_usec) / 1000000.0;
   printf ("Total time %lf seconds\n",total_time);
+
+  clock_t finaltime = clock();
+  double thetime = ((double)finaltime-starttime) / CLOCKS_PER_SEC;
+  printf ("The time %lf seconds\n",thetime);
+
+
+  // 
+  // Terminate
+  //  
+#ifdef MPI
+  MPI_Type_free(&UTOSENDLR);
+  MPI_Type_free(&UTOSENDTB);
+  MPI_Finalize ();
+#endif
+
   
   return 0;
 }
