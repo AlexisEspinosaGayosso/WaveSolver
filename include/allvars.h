@@ -80,12 +80,15 @@
     //
     // Pression U 3D array memory allocation
     // 
-    REAL **** u;
+    //AEG_textBook REAL **** u;
+#define NNN 240
+    REAL u[3][NNN+8][NNN+8][NNN+8];
     
     //
     // Velocity V 3D array
     // 
-    REAL *** v;
+    //AEG_textBook REAL *** v;
+    REAL v[NNN+8][NNN+8][NNN+8];
             
     //
     // File to which output will be written
