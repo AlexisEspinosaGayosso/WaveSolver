@@ -123,14 +123,20 @@ int wave_prop_3D_cube (void)
     //    
     // Time Loop
     //
+    
+    int block_size=9; //Nx+4; //HAE Testing the loop blocking
     for (t = 0, t_l = 0, t_0 = 1, t_r = 2; t < T; t++) // Time Loop
-    {     
-      for (x = 4; x < Nx + 4; x++)  // Loop over x coordinate
+    {    
+      //for (x = 4; x < Nx + 4; x++)  // Loop over x coordinate
+      for (int xx = 4; xx < Nx + 4; xx+=block_size)  // Loop over x coordinate
       {
-	      for (y = 4; y < Ny + 4; y++)  // Loop over y coordinate
+	      //for (y = 4; y < Ny + 4; y++)  // Loop over y coordinate
+         for (int yy = 4; yy < Ny + 4; yy+=block_size)  // Loop over y coordinate
       	{
-	         for (z = 4; z < Nz + 4; z++)  // Loop over z coordinate
+	         //for (z = 4; z < Nz + 4; z++)  // Loop over z coordinate
+            for (int zz = 4; zz < Nz + 4; zz+=block_size)  // Loop over z coordinate
 	         {
+               for (x=xx; x<xx+block_size; x++){for (y=yy; y<yy+block_size; y++){for (z=zz; z<zz+block_size; z++){
 	            v2 = v[x-4][y-4][z-4] * v[x-4][y-4][z-4];  // v^2 of current cell
 	    
 	            sum_p = 0;                                 // set Summatory to 0
@@ -156,20 +162,20 @@ int wave_prop_3D_cube (void)
                                  + u[t_0][x][y+i][z] \
                                  + u[t_0][x][y][z+i]);*/
 
-               //for (l=0, i=-4; l < 9; l++,i++)
-                 //sum_p += Dk[l] * ( 0 \
-                           //      + u[t_0][x+i][y][z] 
-                           //      + u[t_0][x][y+i][z] 
-                   //              + u[t_0][x][y][z+i] 
-                     //             );
-               sum_p += 0
-                        +  Dk[0] * u[t_0][x-4][y][z] + Dk[1] * u[t_0][x-3][y][z] + Dk[2] * u[t_0][x-2][y][z] + Dk[3] * u[t_0][x-1][y][z] + Dk[4] * u[t_0][x][y][z] 
-                        + Dk[5] * u[t_0][x+1][y][z] + Dk[6] * u[t_0][x+2][y][z] + Dk[7] * u[t_0][x+3][y][z] + Dk[8] * u[t_0][x+4][y][z] 
-                        + Dk[0] * u[t_0][x][y-4][z] + Dk[1] * u[t_0][x][y-3][z] + Dk[2] * u[t_0][x][y-2][z] + Dk[3] * u[t_0][x][y-1][z] + Dk[4] * u[t_0][x][y][z] 
-                        + Dk[5] * u[t_0][x][y+1][z] + Dk[6] * u[t_0][x][y+2][z] + Dk[7] * u[t_0][x][y+3][z] + Dk[8] * u[t_0][x][y+4][z] 
-                        + Dk[0] * u[t_0][x][y][z-4] + Dk[1] * u[t_0][x][y][z-3] + Dk[2] * u[t_0][x][y][z-2] + Dk[3] * u[t_0][x][y][z-1] + Dk[4] * u[t_0][x][y][z] 
-                        + Dk[5] * u[t_0][x][y][z+1] + Dk[6] * u[t_0][x][y][z+2] + Dk[7] * u[t_0][x][y][z+3] + Dk[8] * u[t_0][x][y][z+4] 
-                        ;
+               for (l=0, i=-4; l < 9; l++,i++)
+                 sum_p += Dk[l] * ( 0 
+                                 + u[t_0][x+i][y][z] 
+                                 + u[t_0][x][y+i][z] 
+                                 + u[t_0][x][y][z+i] 
+                                  );
+               //sum_p += 0
+                   //     +  Dk[0] * u[t_0][x-4][y][z] + Dk[1] * u[t_0][x-3][y][z] + Dk[2] * u[t_0][x-2][y][z] + Dk[3] * u[t_0][x-1][y][z] + Dk[4] * u[t_0][x][y][z] 
+                   //     + Dk[5] * u[t_0][x+1][y][z] + Dk[6] * u[t_0][x+2][y][z] + Dk[7] * u[t_0][x+3][y][z] + Dk[8] * u[t_0][x+4][y][z] 
+                   //     + Dk[0] * u[t_0][x][y-4][z] + Dk[1] * u[t_0][x][y-3][z] + Dk[2] * u[t_0][x][y-2][z] + Dk[3] * u[t_0][x][y-1][z] + Dk[4] * u[t_0][x][y][z] 
+                   //     + Dk[5] * u[t_0][x][y+1][z] + Dk[6] * u[t_0][x][y+2][z] + Dk[7] * u[t_0][x][y+3][z] + Dk[8] * u[t_0][x][y+4][z] 
+                   //     + Dk[0] * u[t_0][x][y][z-4] + Dk[1] * u[t_0][x][y][z-3] + Dk[2] * u[t_0][x][y][z-2] + Dk[3] * u[t_0][x][y][z-1] + Dk[4] * u[t_0][x][y][z] 
+                   //     + Dk[5] * u[t_0][x][y][z+1] + Dk[6] * u[t_0][x][y][z+2] + Dk[7] * u[t_0][x][y][z+3] + Dk[8] * u[t_0][x][y][z+4] 
+                   //     ;
 
                /*AEG_optimizando sum_p += \
                           Dk[0] * u[t_0][x-4][y][z] + Dk[1] * u[t_0][x-3][y][z] + Dk[2] * u[t_0][x-2][y][z] + Dk[3] * u[t_0][x-1][y][z] + Dk[4] * u[t_0][x][y][z] \
@@ -190,6 +196,7 @@ int wave_prop_3D_cube (void)
                // Compute u(x,y,z,t+Dt)
                //
                u[t_r][x][y][z] = v2 * dt2 * (ft + sum_p/dx2) - sum_t;
+               }}}
             }
          }
       }
