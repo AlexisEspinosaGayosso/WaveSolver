@@ -21,7 +21,7 @@ _DEPS    = allvars.h proto.h
 DEPS     = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 #Object file list ---------------
-_OBJ     = domain.o fdtd.o communicate.o setup.o main.o
+_OBJ     = domain.o fdtd.o communicate.o setup.o dynamicArrays.o main.o
 OBJ      = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 _OBJTEST	= domain.o fdtd.o communication_test.o setup.o main.o

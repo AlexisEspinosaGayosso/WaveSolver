@@ -132,7 +132,7 @@ int setup (void)
     nx_to_sr = Ny * Nz * 4;
     ny_to_sr = Nx * Nz * 4;
     
-    if (ln > -1)
+/*AEG_quita    if (ln > -1)
     {
       utosend_l = (REAL * ) malloc (nx_to_sr * sizeof(REAL)); 
       utorecv_l = (REAL * ) malloc (nx_to_sr * sizeof(REAL)); 
@@ -154,8 +154,10 @@ int setup (void)
     {
       utosend_b = (REAL * ) malloc (ny_to_sr * sizeof(REAL));
       utorecv_b = (REAL * ) malloc (ny_to_sr * sizeof(REAL));
-    } 
-    
+    }
+*/ 
+
+/*AEG_quita
     //
     // Pression U 3D array memory allocation
     // 
@@ -180,15 +182,31 @@ int setup (void)
       for (k = 0; k < Ny; k++)
 	v[j][k] = (REAL *) malloc (Nz*sizeof(REAL));
     }
+*/    
+    //
+    // Pression U 3D array memory allocation
+    // 
+    reserve_u(); //HAE Execute the dynamic reservation of CONTIGUOUS memory
+    //HAE Defining the MPI_Type_Vectors to be used
+    MPI_Type_vector(4,(Ny+8)*(Nz+8),(Ny+8)*(Nz+8),MPIREAL,&UTOSENDLR);
+    MPI_Type_commit(&UTOSENDLR);
+    MPI_Type_vector((Nx+8),4*(Nz+8),(Ny+8)*(Nz+8),MPIREAL,&UTOSENDTB);
+    MPI_Type_commit(&UTOSENDTB);
+
+
+    //
+    // Velocity V 3D array memory allocation
+    //
+    reserve_v(); //HAE Execute the dynamic reservation of CONTIGUOUS memory
     
     //
     // Initialization of pressure to zero in all grid
     //
     for (t = 0; t < 3; t++)
       for (x = 0; x < (Nx + 8); x++)
-	for (y = 0; y < (Ny + 8); y++)
-	  for (z = 0; z < (Nz + 8); z++)
-	    u[t][x][y][z] = 0;
+	     for (y = 0; y < (Ny + 8); y++)
+   	    for (z = 0; z < (Nz + 8); z++)
+            u[t][x][y][z] = 0;
     
           
     //
@@ -198,9 +216,9 @@ int setup (void)
       for (y = 0; y < Ny; y++)
         for (z = 0; z < Nz; z++)
           if ( z <= (Nz/6))      //--- Set velocity to 1.5 km/s water layer
-            v[x][y][z] = 1500;   
+            {v[x][y][z] = 1500;}
           else
-            v[x][y][z] = 2000;   //--- Set velocity to 2.0 km/s sediment layer
+            {v[x][y][z] = 2000;}   //--- Set velocity to 2.0 km/s sediment layer
 	    
     
     //

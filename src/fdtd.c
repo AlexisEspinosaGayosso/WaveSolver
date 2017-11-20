@@ -123,67 +123,69 @@ int wave_prop_3D_cube (void)
     //    
     // Time Loop
     //
+    
     for (t = 0, t_l = 0, t_0 = 1, t_r = 2; t < T; t++) // Time Loop
-    {      
+    {    
       for (x = 4; x < Nx + 4; x++)  // Loop over x coordinate
       {
-	for (y = 4; y < Ny + 4; y++)  // Loop over y coordinate
-	{
-	  for (z = 4; z < Nz + 4; z++)  // Loop over z coordinate
-	  {
-	    v2 = v[x-4][y-4][z-4] * v[x-4][y-4][z-4];  // v^2 of current cell
+	      for (y = 4; y < Ny + 4; y++)  // Loop over y coordinate
+      	{
+	         for (z = 4; z < Nz + 4; z++)  // Loop over z coordinate
+	         {         
+	            v2 = v[x-4][y-4][z-4] * v[x-4][y-4][z-4];  // v^2 of current cell
 	    
-	    sum_p = 0;                                 // set Summatory to 0
+	            sum_p = 0;                                 // set Summatory to 0
 	    
-	    ft = 0;                                    // set source to 0
+	            ft = 0;                                    // set source to 0
 
-	    //
-	    // If source is located at current cell
-	    // add source term
-	    //
-	    if ((x == Srcx) && (y == Srcy) && (z == Srcz)) 
-	    {
-	      t_t02 =  (t+1)*dt - t0;
-	      t_t02 *= t_t02;
-	      ft = (1 - t_t02/sigma2) / c1 * exp(-t_t02/(2*sigma2));
-	    }
-	    
-	    //
-	    // Spatial Differentiation
-	    //
-	    for (l=0, i=-4; l < 9; l++,i++)
-	      sum_p += Dk[l] * (u[t_0][x+i][y][z] \
-	                      + u[t_0][x][y+i][z] \
-	                      + u[t_0][x][y][z+i]);
-	    
-	    //
-	    // Time Differentiation
-	    //  
-	    sum_t = Dt[0]*u[t_l][x][y][z]  +  Dt[1]*u[t_0][x][y][z];
-	    
-	    //
-	    // Compute u(x,y,z,t+Dt)
-	    //
-	    u[t_r][x][y][z] = v2 * dt2 * (ft + sum_p/dx2) - sum_t;
-	  }
-	}
+               //
+               // If source is located at current cell
+               // add source term
+               //
+               if ((x == Srcx) && (y == Srcy) && (z == Srcz)) 
+               {
+                 t_t02 =  (t+1)*dt - t0;
+                 t_t02 *= t_t02;
+                 ft = (1 - t_t02/sigma2) / c1 * exp(-t_t02/(2*sigma2));
+               }
+               
+
+               for (l=0, i=-4; l < 9; l++,i++)
+                 sum_p += Dk[l] * ( 0 
+                                 + u[t_0][x+i][y][z] 
+                                 + u[t_0][x][y+i][z] 
+                                 + u[t_0][x][y][z+i] 
+                                  );
+
+               //
+               // Time Differentiation
+               //  
+               sum_t = Dt[0]*u[t_l][x][y][z]  +  Dt[1]*u[t_0][x][y][z];
+               
+               //
+               // Compute u(x,y,z,t+Dt)
+               //
+               u[t_r][x][y][z] = v2 * dt2 * (ft + sum_p/dx2) - sum_t;
+            }
+         }
       }
-
-      if (write_output == 1)
-#ifdef OPENMP
-      if(omp_get_thread_num() == 0) // Only master thread prints results
-#endif
       if ((t+1)%10 == 0)            // Output written every 10 time-steps
       {
-	for (x = 4; x < Nx + 4; x++)
-	{
-	  for (y = 4; y < Ny + 4; y++)
-	    fprintf (f, "%6.5f  ", u[t_0][x][y][Nz/2 + 4]);
-	  fprintf (f, "\n");
-	}
-	printf ("time = %g\n", t*dt);
+       if (write_output == 1)
+#ifdef OPENMP
+         if(omp_get_thread_num() == 0) // Only master thread prints results
+#endif         
+         {
+	        for (x = 4; x < Nx + 4; x++)
+	        {
+	           for (y = 4; y < Ny + 4; y++)
+	           fprintf (f, "%6.5f  ", u[t_0][x][y][Nz/2 + 4]);
+	           fprintf (f, "\n");
+	        }
+         }
+
+	    printf ("time = %g\n", t*dt);
       }
-      
       t_l = (t_l + 1) % 3;
       t_0 = (t_0 + 1) % 3;
       t_r = (t_r + 1) % 3;
@@ -202,32 +204,20 @@ int wave_prop_3D_cube (void)
   //
   // Free U 3-3D array
   //   
-  for(i = 0; i < 3; i++)
-  {
-    for (j = 0; j < (Nx+8); j++)
-    {
-      for (k = 0; k < (Ny+8); k++)
-      {
-	free(u[i][j][k]);
-      }
-      free(u[i][j]);
-    }
-    free(u[i]);
-  }
-  free (u);
+  my_free(u[0][0][0]);
+  my_free(u[0][0]);
+  my_free(u[0]);
+  my_free(u);
+
   printf("u array freed\n");
+
   //
   // Free V 3D array
   // 
-  for (j = 0; j < Nx; j++)
-  {
-    for (k = 0; k < Ny; k++)
-    {
-      free(v[j][k]);
-    }
-    free(v[j]);
-  }
-  free(v);
+  my_free(v[0][0]);
+  my_free(v[0]);
+  my_free(v);
+
   printf("v array freed\n");
   
   return 1;
