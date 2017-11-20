@@ -22,7 +22,7 @@ int reserve_v (void)
    int max_y=Ny;
    int max_z=Nz;
                     
-/*                v = (REAL ***) malloc( max_x * sizeof *v );
+                v = (REAL ***) malloc( max_x * sizeof *v );
    REAL   **all_y = (REAL **)  malloc( max_x * max_y * sizeof *all_y );
    REAL    *all_z = (REAL *)   malloc( max_x * max_y * max_z * sizeof *all_z );
 
@@ -33,7 +33,7 @@ int reserve_v (void)
       for ( j = 0 ; j < max_y ; j++, all_z += max_z ) {
           v[i][j] = all_z;
       }
-   }*/
+   }
 
 
    return 1;
@@ -51,7 +51,7 @@ int reserve_u (void)
    int max_y=Ny+8;
    int max_z=Nz+8;
     
-/*                u = (REAL ****)malloc( max_t * sizeof *u );
+                u = (REAL ****)malloc( max_t * sizeof *u );
    REAL  ***all_x = (REAL ***) malloc( max_t * max_x * sizeof *all_x );
    REAL   **all_y = (REAL **)  malloc( max_t * max_x * max_y * sizeof *all_y );
    REAL    *all_z = (REAL *)   malloc( max_t * max_x * max_y * max_z * sizeof *all_z );
@@ -66,7 +66,7 @@ int reserve_u (void)
              u[t][i][j] = all_z;
          }
      }
-   }*/
+   }
    
    return 1;
 }

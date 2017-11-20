@@ -189,9 +189,9 @@ int setup (void)
       for (y = 0; y < Ny; y++)
         for (z = 0; z < Nz; z++)
           if ( z <= (Nz/6))      //--- Set velocity to 1.5 km/s water layer
-            v[x][y][z] = 1500;   
+            {v[x][y][z] = 1500;}
           else
-            v[x][y][z] = 2000;   //--- Set velocity to 2.0 km/s sediment layer
+            {v[x][y][z] = 2000;}   //--- Set velocity to 2.0 km/s sediment layer
 	    
     
     //
