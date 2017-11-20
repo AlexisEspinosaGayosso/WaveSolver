@@ -124,21 +124,14 @@ int wave_prop_3D_cube (void)
     // Time Loop
     //
     
-    //int block_size=9; //HAE Testing the loop blocking
     for (t = 0, t_l = 0, t_0 = 1, t_r = 2; t < T; t++) // Time Loop
     {    
       for (x = 4; x < Nx + 4; x++)  // Loop over x coordinate
-      //for (int xx = 4; xx < Nx + 4; xx+=block_size)  // Loop over x coordinate
       {
 	      for (y = 4; y < Ny + 4; y++)  // Loop over y coordinate
-         //for (int yy = 4; yy < Ny + 4; yy+=block_size)  // Loop over y coordinate
       	{
 	         for (z = 4; z < Nz + 4; z++)  // Loop over z coordinate
-            //for (int zz = 4; zz < Nz + 4; zz+=block_size)  // Loop over z coordinate
-	         {
-               //for (x=xx; x<xx+block_size; x++){
-               //for (y=yy; y<yy+block_size; y++){
-               //for (z=zz; z<zz+block_size; z++){               
+	         {         
 	            v2 = v[x-4][y-4][z-4] * v[x-4][y-4][z-4];  // v^2 of current cell
 	    
 	            sum_p = 0;                                 // set Summatory to 0
@@ -173,7 +166,6 @@ int wave_prop_3D_cube (void)
                // Compute u(x,y,z,t+Dt)
                //
                u[t_r][x][y][z] = v2 * dt2 * (ft + sum_p/dx2) - sum_t;
-               //}}}
             }
          }
       }
@@ -212,19 +204,19 @@ int wave_prop_3D_cube (void)
   //
   // Free U 3-3D array
   //   
-/*  my_free(u[0][0][0]);
+  my_free(u[0][0][0]);
   my_free(u[0][0]);
   my_free(u[0]);
-  my_free(u);*/
+  my_free(u);
 
   printf("u array freed\n");
 
   //
   // Free V 3D array
   // 
-/*  my_free(v[0][0]);
+  my_free(v[0][0]);
   my_free(v[0]);
-  my_free(v);*/
+  my_free(v);
 
   printf("v array freed\n");
   

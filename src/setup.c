@@ -132,7 +132,7 @@ int setup (void)
     nx_to_sr = Ny * Nz * 4;
     ny_to_sr = Nx * Nz * 4;
     
-    if (ln > -1)
+/*AEG_quita    if (ln > -1)
     {
       utosend_l = (REAL * ) malloc (nx_to_sr * sizeof(REAL)); 
       utorecv_l = (REAL * ) malloc (nx_to_sr * sizeof(REAL)); 
@@ -154,8 +154,35 @@ int setup (void)
     {
       utosend_b = (REAL * ) malloc (ny_to_sr * sizeof(REAL));
       utorecv_b = (REAL * ) malloc (ny_to_sr * sizeof(REAL));
-    } 
-    
+    }
+*/ 
+
+/*AEG_quita
+    //
+    // Pression U 3D array memory allocation
+    // 
+    u = (REAL ****) malloc (3 * sizeof(REAL ***));
+    for (i = 0; i < 3; i++)
+    {
+      u[i] = (REAL ***) malloc ((Nx+8)*sizeof(REAL **));
+      for (j = 0; j < Nx+8; j++)
+      {
+	u[i][j] = (REAL **) malloc ((Ny+8)*sizeof(REAL *));
+        for (k = 0; k < Ny+8; k++)
+	  u[i][j][k] = (REAL *) malloc ((Nz+8)*sizeof(REAL));
+      }
+    }
+    //
+    // Velocity V 3D array memory allocation
+    // 
+    v = (REAL ***) malloc (Nx*sizeof(REAL **));
+    for (j = 0; j < Nx; j++)
+    {
+      v[j] = (REAL **) malloc (Ny*sizeof(REAL *));
+      for (k = 0; k < Ny; k++)
+	v[j][k] = (REAL *) malloc (Nz*sizeof(REAL));
+    }
+*/    
     //
     // Pression U 3D array memory allocation
     // 
